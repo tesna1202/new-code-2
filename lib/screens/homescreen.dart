@@ -6,10 +6,10 @@ import 'package:widgetbook_challenge/api/widgetbook_api.dart';
 class Homescreen extends StatefulWidget {
 
   @override
-  State<Homescreen> createState() => _HomescreenState();
+  State<Homescreen> createState() => _HomeScreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
+class _HomeScreenState extends State<Homescreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
 
@@ -20,62 +20,68 @@ class _HomescreenState extends State<Homescreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Input value"),
+        title: const Text('Input Value'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+      body: Center(
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                  controller: _textEditingController,
-                  onChanged: (value) {},
-                  decoration:
-                  const InputDecoration(
-                      hintText: 'Enter the text'
-                  ),
-                  validator: (value) {
-              if(int.tryParse(value!)!=null){
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextFormField(
+                    controller: _textEditingController,
+                    onChanged: (value) {},
+                    decoration:
+                    const InputDecoration(
+                        hintText: 'Enter the text',
+                      border: OutlineInputBorder()
+                    ),
+                    validator: (value) {
+                if(int.tryParse(value!)!=null){
 
-              return 'Numbers not accepted';
-              }
-              },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MaterialButton(
-                color: Colors.blue,
-                onPressed: () async {
-                  print(_formKey.currentState!.validate());
-                  if (_formKey.currentState!.validate()) {
-                    try {
-                      final currentresponse = await WidgetbookApi().
-                      welcomeToWidgetbook(message: _textEditingController.text);
-
-                      setState(() {
-                        response = currentresponse;
-                      });
-                    }catch (e) {
-                      setState(() {
-                        response = 'Error occurred';
-                      });
-                    }
-                  }
-
+                return 'Numbers not accepted';
+                }
                 },
-                child: const Text(
-                  'Submit',
-                  style: TextStyle(
-                    fontSize: 15,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                MaterialButton(
+                  color: Colors.blue,
+                  onPressed: () async {
+                    print(_formKey.currentState!.validate());
+                    if (_formKey.currentState!.validate()) {
+                      try {
+                        final CurrentResponse = await WidgetbookApi().
+                        welcomeToWidgetbook(message: _textEditingController.text);
+
+                        setState(() {
+                          response = CurrentResponse;
+                        });
+                      }catch (e) {
+                        setState(() {
+                          response = 'Error occurred';
+                        });
+                      }
+                    }
+
+                  },
+
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-              ),
-              Text(response),
-            ],),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(response),
+              ],),
+          ),
         ),
       ),
     );
