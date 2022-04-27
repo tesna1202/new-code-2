@@ -1,7 +1,7 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook_challenge/api/widgetbook_api.dart';
-
 
 class Homescreen extends StatefulWidget {
 
@@ -51,11 +51,14 @@ class _HomeScreenState extends State<Homescreen> {
                 MaterialButton(
                   color: Colors.blue,
                   onPressed: () async {
-                    print(_formKey.currentState!.validate());
+                    if (kDebugMode) {
+                      print(_formKey.currentState!.validate());
+                    }
                     if (_formKey.currentState!.validate()) {
                       try {
                         final CurrentResponse = await WidgetbookApi().
-                        welcomeToWidgetbook(message: _textEditingController.text);
+                        welcomeToWidgetbook(
+                            message: _textEditingController.text,);
 
                         setState(() {
                           response = CurrentResponse;
